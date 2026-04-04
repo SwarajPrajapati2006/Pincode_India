@@ -8,15 +8,15 @@ import { MapPin, Map, MailCheck, MailX } from "lucide-react";
 function StatCard({ label, value, icon, bg, color }) {
   return (
     <div className="premium-card">
-      <div style={{ padding: "32px", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div>
-          <p style={{ fontSize: "16px", fontWeight: "600", color: "#94a3b8", margin: "0 0 12px 0", letterSpacing: "0.5px", textTransform: "uppercase" }}>{label}</p>
-          <p style={{ fontSize: "40px", fontWeight: "700", color: "#f8fafc", margin: 0, letterSpacing: "-0.5px" }}>
+      <div style={{ padding: "32px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
+        <div style={{ flex: 1 }}>
+          <p style={{ fontSize: "14px", fontWeight: "700", color: "#94a3b8", margin: "0 0 8px 0", letterSpacing: "0.5px", textTransform: "uppercase" }}>{label}</p>
+          <p style={{ fontSize: "36px", fontWeight: "800", color: "#f8fafc", margin: 0, letterSpacing: "-1px", lineHeight: "1" }}>
             {typeof value === "number" ? value.toLocaleString("en-IN") : value}
           </p>
         </div>
         <div style={{
-          width: "64px", height: "64px", borderRadius: "20px", display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0, width: "64px", height: "64px", borderRadius: "20px", display: "flex", alignItems: "center", justifyContent: "center",
           background: bg, color: color, boxShadow: `0 8px 24px -8px ${color}`
         }}>
           {icon}
