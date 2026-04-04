@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { fetchPincodeDetail } from "../services/api";
 import Loader from "../components/Loader";
 import ErrorMsg from "../components/ErrorMsg";
+import { ChevronLeft, Map, Building, Home, MapPin, Compass, CircleDot } from "lucide-react";
 
 export default function PincodeDetail() {
   const { pincode } = useParams();
@@ -24,13 +25,13 @@ export default function PincodeDetail() {
   return (
     <div className="container-main" style={{ maxWidth: "1024px" }}>
       {/* Back link */}
-      <Link to="/explore" style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "16px", fontWeight: "600", color: "#60a5fa", textDecoration: "none", marginBottom: "40px", padding: "10px 20px", background: "#1e293b", border: "1px solid #334155", borderRadius: "10px", transition: "all 0.2s" }} onMouseOver={e=>e.target.style.background='#334155'} onMouseOut={e=>e.target.style.background='#1e293b'}>
-        ← Back to Explore
+      <Link to="/explore" className="flex items-center gap-2 text-base font-semibold text-fuchsia-400 no-underline mb-10 px-5 py-2.5 rounded-xl transition-all hover:bg-slate-800/50" style={{ background: "rgba(30, 41, 59, 0.4)", border: "1px solid rgba(255,255,255,0.1)" }}>
+        <ChevronLeft size={18} /> Back to Explore
       </Link>
 
       {/* Title */}
       <div style={{ marginBottom: "40px", display: "flex", alignItems: "center", flexWrap: "wrap", gap: "24px" }}>
-        <span style={{ padding: "16px 28px", background: "#3b82f6", color: "white", borderRadius: "16px", fontFamily: "monospace", fontSize: "32px", fontWeight: "700" }}>
+        <span style={{ padding: "16px 28px", backgroundImage: "linear-gradient(135deg, #7c3aed 0%, #d946ef 100%)", color: "white", borderRadius: "20px", fontFamily: "monospace", fontSize: "32px", fontWeight: "700", boxShadow: "0 10px 25px -5px rgba(192, 38, 211, 0.5)" }}>
           {pincode}
         </span>
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -63,16 +64,16 @@ export default function PincodeDetail() {
             {/* Details Grid */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "24px" }}>
               {[
-                { label: "State", value: item.stateName, icon: "🗺️" },
-                { label: "District", value: item.districtName, icon: "🏢" },
-                { label: "Taluk", value: item.taluk, icon: "🏘️" },
-                { label: "Division", value: item.divisionName, icon: "📍" },
-                { label: "Region", value: item.regionName, icon: "🧭" },
-                { label: "Circle", value: item.circleName, icon: "⭕" },
+                { label: "State", value: item.stateName, icon: <Map size={24} className="text-violet-400" /> },
+                { label: "District", value: item.districtName, icon: <Building size={24} className="text-fuchsia-400" /> },
+                { label: "Taluk", value: item.taluk, icon: <Home size={24} className="text-orange-400" /> },
+                { label: "Division", value: item.divisionName, icon: <MapPin size={24} className="text-rose-400" /> },
+                { label: "Region", value: item.regionName, icon: <Compass size={24} className="text-sky-400" /> },
+                { label: "Circle", value: item.circleName, icon: <CircleDot size={24} className="text-emerald-400" /> },
               ].map((field) => (
-                <div key={field.label} style={{ background: "#0f172a", borderRadius: "12px", padding: "20px", border: "1px solid #334155" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
-                    <span style={{ fontSize: "16px" }}>{field.icon}</span>
+                <div key={field.label} style={{ background: "rgba(15, 23, 42, 0.5)", borderRadius: "16px", padding: "20px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                    <span>{field.icon}</span>
                     <p style={{ fontSize: "13px", fontWeight: "600", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.5px", margin: 0 }}>
                       {field.label}
                     </p>

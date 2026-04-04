@@ -3,6 +3,7 @@ import { fetchStats, fetchStateDistribution, fetchDeliveryDistribution } from ".
 import Loader from "../components/Loader";
 import ErrorMsg from "../components/ErrorMsg";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
+import { MapPin, Map, MailCheck, MailX } from "lucide-react";
 
 function StatCard({ label, value, icon, bg, color }) {
   return (
@@ -15,8 +16,8 @@ function StatCard({ label, value, icon, bg, color }) {
           </p>
         </div>
         <div style={{
-          width: "56px", height: "56px", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: "28px", background: bg, color: color
+          width: "64px", height: "64px", borderRadius: "20px", display: "flex", alignItems: "center", justifyContent: "center",
+          background: bg, color: color, boxShadow: `0 8px 24px -8px ${color}`
         }}>
           {icon}
         </div>
@@ -25,7 +26,7 @@ function StatCard({ label, value, icon, bg, color }) {
   );
 }
 
-const PIE_COLORS = ["#f59e0b", "#ef4444"]; // amber-500, red-500
+const PIE_COLORS = ["#10b981", "#f43f5e"]; // emerald-500 (Delivery), rose-500 (Non-Delivery)
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -60,10 +61,10 @@ export default function Dashboard() {
 
       {stats && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px", marginBottom: "40px" }}>
-          <StatCard label="Total Pin Codes" value={stats.totalPincodes} icon="📌" bg="rgba(59, 130, 246, 0.15)" color="#60a5fa" /> {/* blue */}
-          <StatCard label="States / UTs" value={stats.totalStates} icon="🗺️" bg="rgba(148, 163, 184, 0.15)" color="#cbd5e1" /> {/* slate */}
-          <StatCard label="Delivery Offices" value={stats.deliveryOffices} icon="📬" bg="rgba(245, 158, 11, 0.15)" color="#fbbf24" /> {/* amber */}
-          <StatCard label="Non-Delivery Offices" value={stats.nonDeliveryOffices} icon="📭" bg="rgba(239, 68, 68, 0.15)" color="#f87171" /> {/* red */}
+          <StatCard label="Total Pin Codes" value={stats.totalPincodes} icon={<MapPin size={32} />} bg="rgba(139, 92, 246, 0.15)" color="#a78bfa" />
+          <StatCard label="States / UTs" value={stats.totalStates} icon={<Map size={32} />} bg="rgba(249, 115, 22, 0.15)" color="#fb923c" />
+          <StatCard label="Delivery Offices" value={stats.deliveryOffices} icon={<MailCheck size={32} />} bg="rgba(16, 185, 129, 0.15)" color="#34d399" />
+          <StatCard label="Non-Delivery Offices" value={stats.nonDeliveryOffices} icon={<MailX size={32} />} bg="rgba(244, 63, 94, 0.15)" color="#fb7185" />
         </div>
       )}
 
@@ -74,10 +75,16 @@ export default function Dashboard() {
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={stateDist.slice(0, 15)} margin={{ top: 5, right: 20, left: 10, bottom: 65 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-              <XAxis dataKey="state" tick={{ fill: "#94a3b8", fontSize: 12, fontWeight: "500", fontFamily: "Inter" }} angle={-45} textAnchor="end" interval={0} axisLine={{stroke: '#334155'}} tickLine={false} />
-              <YAxis tick={{ fill: "#94a3b8", fontSize: 12, fontWeight: "500", fontFamily: "Inter" }} axisLine={{stroke: '#334155'}} tickLine={false} />
-              <Tooltip cursor={{ fill: "#334155" }} contentStyle={{ backgroundColor: "#0f172a", borderRadius: "12px", border: "1px solid #334155", color: "#f8fafc", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.5)", fontFamily: "Inter", fontWeight: "500" }} />
-              <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={56} />
+              <XAxis dataKey="state" tick={{ fill: "#a78bfa", fontSize: 13, fontWeight: "600", fontFamily: "Inter" }} angle={-45} textAnchor="end" interval={0} axisLine={{stroke: 'rgba(255,255,255,0.1)'}} tickLine={false} />
+              <YAxis tick={{ fill: "#94a3b8", fontSize: 12, fontWeight: "500", fontFamily: "Inter" }} axisLine={{stroke: 'rgba(255,255,255,0.1)'}} tickLine={false} />
+              <Tooltip cursor={{ fill: "rgba(139, 92, 246, 0.1)" }} contentStyle={{ backgroundColor: "rgba(15, 23, 42, 0.9)", backdropFilter: "blur(12px)", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.1)", color: "#f8fafc", boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5)", fontFamily: "Inter", fontWeight: "600" }} />
+              <Bar dataKey="count" fill="url(#colorUv)" radius={[6, 6, 0, 0]} maxBarSize={56} />
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#d946ef" stopOpacity={0.9}/>
+                  <stop offset="95%" stopColor="#7c3aed" stopOpacity={0.9}/>
+                </linearGradient>
+              </defs>
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -90,7 +97,7 @@ export default function Dashboard() {
               <Pie data={pieData} cx="50%" cy="45%" outerRadius={130} innerRadius={80} paddingAngle={2} dataKey="value" stroke="none">
                 {pieData.map((_, idx) => <Cell key={idx} fill={PIE_COLORS[idx]} />)}
               </Pie>
-              <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderRadius: "12px", border: "1px solid #334155", color: "#f8fafc", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.5)", fontFamily: "Inter", fontWeight: "500" }} />
+              <Tooltip contentStyle={{ backgroundColor: "rgba(15, 23, 42, 0.9)", backdropFilter: "blur(12px)", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.1)", color: "#f8fafc", boxShadow: "0 20px 40px -10px rgba(0,0,0,0.5)", fontFamily: "Inter", fontWeight: "600" }} />
               <Legend wrapperStyle={{ fontFamily: "Inter", fontSize: 15, fontWeight: "500", color: "#cbd5e1" }} verticalAlign="bottom" height={36} />
             </PieChart>
           </ResponsiveContainer>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchStates, fetchDistricts, fetchTaluks, fetchPincodes, searchPincodes, getExportURL } from "../services/api";
 import Loader from "../components/Loader";
 import ErrorMsg from "../components/ErrorMsg";
+import { Download, Search, X, FolderSearch, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Explore() {
   const navigate = useNavigate();
@@ -84,14 +85,14 @@ export default function Explore() {
           <p style={{ fontSize: "18px", color: "#cbd5e1", margin: 0, fontWeight: "400" }}>Search and filter India's postal codes</p>
         </div>
         <button onClick={handleExport} className="btn-primary">
-          📥 Export CSV
+          <Download size={18} /> Export CSV
         </button>
       </div>
 
       <div className="premium-card" style={{ padding: "40px", marginBottom: "40px" }}>
         {/* Search Bar */}
         <div style={{ position: "relative", marginBottom: "32px" }}>
-          <span style={{ position: "absolute", left: "24px", top: "50%", transform: "translateY(-50%)", fontSize: "24px" }}>🔍</span>
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-fuchsia-400" size={24} />
           <input
             type="text"
             placeholder="Search pincode, office name, district..."
@@ -139,7 +140,7 @@ export default function Explore() {
             : `Showing ${data.length} of ${total.toLocaleString("en-IN")} results`}
         </p>
         {searchResults !== null && (
-          <button onClick={() => { setSearchQuery(""); setSearchResults(null); }} style={{ background: "#1e293b", border: "1px solid #334155", color: "#60a5fa", fontSize: "15px", fontWeight: "600", padding: "8px 16px", borderRadius: "10px", cursor: "pointer", transition: "background 0.2s" }} onMouseOver={e=>e.target.style.background='#334155'} onMouseOut={e=>e.target.style.background='#1e293b'}>✕ Clear filters</button>
+          <button onClick={() => { setSearchQuery(""); setSearchResults(null); }} className="flex items-center gap-2 hover:bg-slate-700 transition" style={{ background: "rgba(30, 41, 59, 0.6)", border: "1px solid rgba(255,255,255,0.1)", color: "#a78bfa", fontSize: "15px", fontWeight: "600", padding: "8px 16px", borderRadius: "10px", cursor: "pointer" }}><X size={16} /> Clear filters</button>
         )}
       </div>
 
@@ -164,8 +165,8 @@ export default function Explore() {
             <tbody>
               {displayData.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: "80px 20px", textAlign: "center", color: "#94a3b8" }}>
-                    <div style={{ fontSize: "48px", marginBottom: "20px" }}>📭</div>
+                  <td colSpan={7} style={{ padding: "100px 20px", textAlign: "center", color: "#94a3b8" }}>
+                    <FolderSearch size={64} className="mx-auto mb-6 text-fuchsia-500/50" />
                     <p style={{ fontWeight: "700", fontSize: "20px", margin: "0 0 10px 0", color: "#f8fafc" }}>No records found</p>
                     <p style={{ fontSize: "16px", margin: 0 }}>Try adjusting your filters.</p>
                   </td>
@@ -195,7 +196,7 @@ export default function Explore() {
       {/* Pagination */}
       {showPagination && totalPages > 1 && (
         <div style={{ display: "flex", justifyContent: "center", gap: "10px", alignItems: "center", marginTop: "40px" }}>
-          <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="pagination-btn">← Prev</button>
+          <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="pagination-btn flex items-center gap-1"><ChevronLeft size={18}/> Prev</button>
           <div style={{ display: "flex", gap: "8px" }}>
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               let pageNum;
@@ -208,7 +209,7 @@ export default function Explore() {
               );
             })}
           </div>
-          <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="pagination-btn">Next →</button>
+          <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="pagination-btn flex items-center gap-1">Next <ChevronRight size={18}/></button>
         </div>
       )}
     </div>

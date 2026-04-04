@@ -1,13 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { MapPin, LayoutDashboard, Search, Info, Menu as MenuIcon, X } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { to: "/", label: "Dashboard", icon: "📊" },
-    { to: "/explore", label: "Explore", icon: "🔍" },
-    { to: "/about", label: "About", icon: "ℹ️" },
+    { to: "/", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5 inline" /> },
+    { to: "/explore", label: "Explore", icon: <Search className="w-5 h-5 inline" /> },
+    { to: "/about", label: "About", icon: <Info className="w-5 h-5 inline" /> },
   ];
 
   return (
@@ -15,15 +16,11 @@ export default function Navbar() {
       <div className="container-main" style={{ padding: "0 24px" }}>
         <div className="flex items-center justify-between" style={{ height: "80px" }}>
           {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-3" style={{ textDecoration: "none" }}>
-            <div style={{
-              width: "44px", height: "44px", backgroundColor: "#3b82f6", /* blue-500 */
-              borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center",
-              color: "white", fontSize: "22px"
-            }}>
-              📌
+          <NavLink to="/" className="flex items-center gap-3 group" style={{ textDecoration: "none" }}>
+            <div className="flex items-center justify-center w-11 h-11 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-500 shadow-xl shadow-fuchsia-500/20 group-hover:scale-105 transition-transform">
+              <MapPin className="w-6 h-6 text-white" />
             </div>
-            <span style={{ fontSize: "24px", fontWeight: "700", color: "white", letterSpacing: "-0.5px" }}>
+            <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-violet-200 to-orange-200 tracking-tight">
               PinCode India
             </span>
           </NavLink>
@@ -37,13 +34,14 @@ export default function Navbar() {
                 end={link.to === "/"}
                 style={({ isActive }) => ({
                   padding: "10px 20px",
-                  borderRadius: "10px",
-                  fontSize: "16px",
-                  fontWeight: "600",
+                  borderRadius: "9999px",
+                  fontSize: "15px",
+                  fontWeight: "700",
                   textDecoration: "none",
-                  transition: "all 0.2s ease",
-                  backgroundColor: isActive ? "#3b82f6" : "transparent", /* blue-500 */
-                  color: isActive ? "white" : "#cbd5e1" /* slate-300 */
+                  transition: "all 0.3s ease",
+                  backgroundColor: isActive ? "transparent" : "transparent",
+                  backgroundImage: isActive ? "linear-gradient(135deg, #7c3aed 0%, #d946ef 100%)" : "none",
+                  color: isActive ? "white" : "#cbd5e1"
                 })}
               >
                 <span className="mr-2 opacity-80">{link.icon}</span>
@@ -54,10 +52,9 @@ export default function Navbar() {
 
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden"
-            style={{ padding: "10px", borderRadius: "10px", background: "transparent", border: "none", color: "#cbd5e1", cursor: "pointer", fontSize: "22px" }}
+            className="md:hidden p-2 rounded-xl text-slate-300 hover:bg-slate-800/50 transition-colors"
           >
-            {open ? "✕" : "☰"}
+            {open ? <X className="w-7 h-7" /> : <MenuIcon className="w-7 h-7" />}
           </button>
         </div>
 
@@ -71,8 +68,8 @@ export default function Navbar() {
                 end={link.to === "/"}
                 onClick={() => setOpen(false)}
                 style={({ isActive }) => ({
-                  display: "block", padding: "12px 20px", borderRadius: "10px", fontSize: "16px", fontWeight: "600",
-                  textDecoration: "none", backgroundColor: isActive ? "#3b82f6" : "transparent", color: isActive ? "white" : "#cbd5e1"
+                  display: "block", padding: "14px 20px", borderRadius: "16px", fontSize: "16px", fontWeight: "700",
+                  textDecoration: "none", backgroundImage: isActive ? "linear-gradient(135deg, #7c3aed 0%, #d946ef 100%)" : "none", color: isActive ? "white" : "#cbd5e1"
                 })}
               >
                 <span className="mr-3">{link.icon}</span>{link.label}
